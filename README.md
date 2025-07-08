@@ -26,3 +26,6 @@ Reactivity.jl
 
 GeneralizedModel.jl
     Code to generate Jacobian matrices of stable systems based on a Generalized Foodweb Model.
+
+ex_intmat.csv
+    The interaction matrix of the example network. (i,j)th element = 1, if i eats j.
