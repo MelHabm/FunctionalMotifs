@@ -2,8 +2,9 @@ module ReactivityResults
 
 using Plots
 using Plots.PlotMeasures
+using StatsPlots
 
-export hist_probdens, hist_probdens2x2, hist_probdens_comp, hist_probdens2x2_comp
+export hist_probdens, hist_probdens2x2, hist_probdens_comp, hist_probdens2x2_comp, get_maxmotif
 
 """
 Author:       Melanie Habermann
@@ -249,6 +250,70 @@ function hist_probdens2x2_comp(panels;
     display(plt)
 
 end # end function
+
+"""
+get_maxmotif()
+
+Use for motifs of the same size!
+
+The function combines the results for different motifs of the same size (i.e., motifs with the same number of nodes) and 
+determines which of these motifs has the highest reactivity 
+"""
+function get_maxmotif(vectors::AbstractVector...)
+    # Combine the vectors column-wise into a matrix.
+    # Each row now has the reactivity of the most reactive instance of each motif for a single parametrization
+    A = hcat(vectors...)
+
+    # For each row, find the max and the index. The index gives information about the kind of motif that is the one with
+    # the highest reactivity of the bunch
+    results = map(eachrow(A)) do row
+        findmax(row)
+    end
+    vals = getindex.(results, 1)
+    idxs = getindex.(results, 2)
+
+    return vals, idxs
+end
+
+"""
+count_mot_appearance()
+
+Counts how often a motif appears as the most reactive one.
+"""
+function count_mot_appearance(idxs::Vector{Int}, n_motifs::Int)
+    return [sum(idxs .== i) for i in 1:n_motifs]
+end
+
+"""
+box_motifs()
+
+Creates a boxplot that compares the most reactive motif of a certain size (for example two and three node motifs) to the 
+reactivity of the entire system.
+"""
+function box_motifs(vectors...; 
+                    ticklabels::Vector{String} = ["$i Nodes" for i in 2:length(vectors)],
+                    outpath::String = "maxz_boxplot.png")
+
+    # Determine how many datasets will be compared in the boxplot
+    n = length(vectors)
+
+    # Cretae plot values
+    plot_vals = [vectors...]
+
+    if length(ticklabels) != n
+        error("Length of 'ticklabels' must match number of input vectors.")
+    end
+
+    plt = boxplot(plot_vals,
+        ylabel = "Reactivity",
+        legend = false,
+        xticks = (1:n, ticklabels),
+        xlabel = "")
+
+    savefig(plt, outpath)
+    display(plt)
+    
+end
 
 """
 count_species(indices)
