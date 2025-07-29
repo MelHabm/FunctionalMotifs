@@ -1,5 +1,5 @@
 # FunctionalMotifs
-Code to the paper "Functional Motifs in Foodwebs and Networks"
+Code to the paper "Functional Motifs in Foodwebs and Networks" in Julia v1.11.1
 
 MotifFinder.jl
     The code of the module that uses interaction matrices to find a number of different motifs in food webs that have been associated with foodweb stability in previous studies and combinations of those motifs. 
