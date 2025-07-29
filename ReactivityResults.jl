@@ -128,6 +128,14 @@ hist_probdens2x2()
 
 Creates a plot with 2x2 subplots full of histograms that plot the probability density against the 
 proportion of system reactivity.
+
+Input:
+datasets : motif datasets to plot (proportion of system reactivity)
+
+Optional:
+n_bins   : Int, number of bins in the histogram (default 30)
+maxval   : Int or Float, max value for the y-axis (default 10.0)
+outpath  : String, path or name of the plot for save file (default hist_grid.png)
 """
 function hist_probdens2x2(datasets;
                             n_bins::Int64 = 30,
@@ -184,6 +192,15 @@ hist_probdens2x2_comp()
 
 Creates a plot with 2x2 subplots full of histograms that plot the probability density against the 
 proportion of system reactivity and compares therein two sets of data.
+
+Input: 
+panels  : NamedTupels with (data1, data2, label) that should be used in the plot
+
+Optional:
+n_bins  : number of bins in the histogram (default 30)
+maxval  : max. value for the y-axis (default 10)
+colors  : Tuple with the colours that should be used for the comparison of the histograms - should be chosen colourblind friendly (default orange and blue)
+outpath : string with the path or name as which the plot should be saved (default comparison_2x2.png)
 """
 function hist_probdens2x2_comp(panels;
                                 n_bins::Int64 = 30,
@@ -257,7 +274,14 @@ get_maxmotif()
 Use for motifs of the same size!
 
 The function combines the results for different motifs of the same size (i.e., motifs with the same number of nodes) and 
-determines which of these motifs has the highest reactivity 
+determines which of these motifs has the highest reactivity.
+
+Input:
+vectors... : vectors with the reactivity values of the motifs to analyze
+
+Output:
+vals       : reactivity of the most reactive motifs
+idxs       : indices of the corresponding motifs
 """
 function get_maxmotif(vectors::AbstractVector...)
     # Combine the vectors column-wise into a matrix.
@@ -279,6 +303,10 @@ end
 count_mot_appearance()
 
 Counts how often a motif appears as the most reactive one.
+
+Input:
+idxs : Vector{Int} with the indices of the motifs to count
+n    : number of motifs
 """
 function count_mot_appearance(idxs::Vector{Int}, n_motifs::Int)
     return [sum(idxs .== i) for i in 1:n_motifs]
@@ -289,9 +317,19 @@ box_motifs()
 
 Creates a boxplot that compares the most reactive motif of a certain size (for example two and three node motifs) to the 
 reactivity of the entire system.
+
+Input:
+vectors : vectors to plot
+
+Optional:
+ticklab : ticklabels in a Vector{String} (default: strings in the form "$i nodes" where i is 1:number of vectors)
+outpath : path or name to save the plot as (default: maxz_boxplot.png)
+
+Example:
+box_motifs(vals1, vals2, vals3, ticklabels = ["3-node", "4-node", "System"])
 """
 function box_motifs(vectors...; 
-                    ticklabels::Vector{String} = ["$i Nodes" for i in 2:length(vectors)],
+                    ticklab::Vector{String} = ["$i Nodes" for i in 1:length(vectors)],
                     outpath::String = "maxz_boxplot.png")
 
     # Determine how many datasets will be compared in the boxplot
@@ -300,14 +338,14 @@ function box_motifs(vectors...;
     # Cretae plot values
     plot_vals = [vectors...]
 
-    if length(ticklabels) != n
-        error("Length of 'ticklabels' must match number of input vectors.")
+    if length(ticklab) != n
+        error("Length of 'ticklab' must match number of input vectors.")
     end
 
     plt = boxplot(plot_vals,
         ylabel = "Reactivity",
         legend = false,
-        xticks = (1:n, ticklabels),
+        xticks = (1:n, ticklab),
         xlabel = "")
 
     savefig(plt, outpath)
