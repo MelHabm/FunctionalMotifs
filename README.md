@@ -27,5 +27,8 @@ Reactivity.jl
 GeneralizedModel.jl
     Code to generate Jacobian matrices of stable systems based on a Generalized Foodweb Model.
 
+ReactivityResults.jl
+    Module for plotting the results. Includes all functions used to plot histograms that compare the probability density of the proportion of system reactivity that is explained by a single motif.
+
 ex_intmat.csv
-    The interaction matrix of the example network. (i,j)th element = 1, if i eats j.
+    The interaction matrix of the example network used in the paper "Functional Motifs in Foodwebs and Networks". (i,j)th element = 1, if i eats j.
