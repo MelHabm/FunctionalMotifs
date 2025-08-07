@@ -49,17 +49,17 @@ function gen_J(A)
         β[isnan.(β)] .= 0.0;
         χ[isnan.(χ)] .= 0.0;
 
-        for i = 1:N # loop over rows
-            for j = 1:N # loop over columns
+        for i = 1:N         # loop over rows
+            for j = 1:N     # loop over columns
 
-                if i == j # intraspecific dynamic
+                if i == j   # intraspecific dynamic
                     J[i,j] = ρ_tilde[i] * ϕ[i] +                                     # primary production
                              ρ[i] * (γ[i] * χ[i,i] * λ[i,i] + ψ[i]) -                # predation gain
                              σ_tilde[i] * μ[i]                                       # natural mortality
                     for k = 1:N
                         J[i,j] -= σ[i] * β[k,i] * λ[k,i] * ((γ[k] - 1) * χ[k,i] + 1) # predation loss
                     end
-                else      # interspecific dynamic
+                else        # interspecific dynamic
                     J[i,j] = 0
 
                     if χ[i,j] != 0
@@ -125,5 +125,6 @@ function determine_trophic_levels(Interactions)
     
     return trophic_levels
 end
+
 
 end # end module
