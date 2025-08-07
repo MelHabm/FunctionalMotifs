@@ -13,9 +13,9 @@ using LinearAlgebra,
 export MotifResults, func_react_motifs
 
 """
-    ReactivityResults
+    MotifResults
 
-A struct to hold all results from motif reactivity analysis.
+A struct to hold all results from functional motif analysis.
 """
 struct MotifResults
     z::Dict{Symbol, Vector{Float64}}
@@ -27,7 +27,21 @@ end
     func_react_motifs(n, interactions)
 
     Run analysis for functional reactivity motifs on a given interaction matrix 'interactions' for 'n' iterations.
-    Returns a `ReactivityResults` object.
+    Returns a 'MotifResults' object.
+
+    Different motifs are addressed by keys.
+    This includes: 
+    H : symmetric Jacobian of the system
+    sp : species
+    pp : predator-prey
+    mut : mutualism (inside the apparent competition motif)
+    ac : apparent competition
+    ec : exploitative competition
+    omni : omnivory
+    ch3 : food chain with three species
+    ch4 : food chain with four species
+    di : diamond (combines ac and ec motifs)
+    c3ch : combined tri-trophic food chains that share the same top-predator
 """
 function func_react_motifs(n::Int, interactions::Matrix{Int64})
 
