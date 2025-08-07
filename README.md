@@ -1,9 +1,11 @@
 # FunctionalMotifs
-Code to the paper "Functional Motifs in Foodwebs and Networks" in Julia v1.11.1
+Code is written using Julia v1.11.1. Make sure the correct version is installed on your computer. 
+
+The whole project is divided into different modules
 
 MotifFinder.jl
-    The code of the module that uses interaction matrices to find a number of different motifs in food webs that have been associated with foodweb stability in previous studies and combinations of those motifs. 
-    Those motifs are:
+    Use interaction matrices to find a number of different motifs in food webs that have been associated with foodweb stability in previous studies and combinations of those motifs. 
+    The motifs included are:
     
     2 species:
       predator-prey
@@ -22,10 +24,10 @@ MotifFinder.jl
       combined tri-trophic foodchains (two tri-trophic chains that share the same top predator)
 
 Reactivity.jl
-    The code to a module that calculates the reactivity of a symmetric Jacobian and motifs of interest.
+    Calculates the reactivity of a symmetric Jacobian and motifs of interest.
 
 GeneralizedModel.jl
-    Code to generate Jacobian matrices of stable systems based on a Generalized Foodweb Model.
+    Generate Jacobian matrices of stable systems based on a Generalized Foodweb Model.
 
 ReactivityResults.jl
     Module for plotting the results. Includes all functions used to plot histograms that compare the probability density of the proportion of system reactivity that is explained by a single motif.
