@@ -1,9 +1,9 @@
 module GeneralizedModel
 
-using Distributions
-using UUIDs
-using LinearAlgebra
-using StatsBase
+using Distributions,
+UUIDs,
+LinearAlgebra,
+StatsBase
 
 export gen_J, assign_lifespans, determine_trophic_levels
 
@@ -30,9 +30,11 @@ function gen_J(A)
 
     α = 1.0 ./ lifespans
 
+    # Create stable system 
+    # A system is stable if the real part of the largest eigenvalue is negative
     while maximum(real(eigvals(J))) >= 0 
         ϕ = rand(Uniform(0.0, 1.0), N)
-        ρ = 1 .* (sum(A, dims = 2) .!= 0)[:]   # Fix: Use Interactions instead of Interaction
+        ρ = 1 .* (sum(A, dims = 2) .!= 0)[:]   
         ρ_tilde = 1 .- ρ
         γ = rand(Uniform(0.5, 1.5), N)
         λ = ones(N, N)  
@@ -85,7 +87,7 @@ end
 
 # Assign lifespans based on trophic levels
 function assign_lifespans(trophic_levels)
-    base_lifespan = 1.0  # Lifespan for the basal trophic level
+    base_lifespan = 1.0       # Lifespan for the basal trophic level
     lifespan_increment = 3.0  # Increment for each higher trophic level
 
     lifespans = base_lifespan .+ (trophic_levels .- 1) .* lifespan_increment
