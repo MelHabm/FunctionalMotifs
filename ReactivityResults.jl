@@ -322,7 +322,7 @@ Input:
 vectors : vectors to plot
 
 Optional:
-ticklab : ticklabels in a Vector{String} (default: strings in the form "$i nodes" where i is 1:number of vectors)
+ticklab : ticklabels in a Vector{String} (default: strings in the form "i nodes" where i is 1:number of vectors)
 outpath : path or name to save the plot as (default: maxz_boxplot.png)
 
 Example:
@@ -398,5 +398,6 @@ function bar_species_frequencies(num_spec::Dict{Int64, Int64})
         title = "Element Frequency Distribution")
 
 end # end function
+
 
 end # end module
